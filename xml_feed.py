@@ -9,21 +9,21 @@ output.write("<?xml version=\"1.0\" encoding=\"utf-8\" ?>\n")
 output.write("<sortie>\n")
  
 #mise en place du dico pour les rubriques
-print("Ã©conomie, une, europe, sociÃ©tÃ©, intertional,idÃ©es, mÃ©dias, sport, planÃ¨te, culture, livres, cinÃ©ma, voyage, technologies, politique, sciences ")
-choix = input("Quelle est la rubrique Ã  traiter?")
+print("économie, une, europe, société, intertional,idées, médias, sport, planète, culture, livres, cinéma, voyage, technologies, politique, sciences ")
+choix = input("Quelle est la rubrique à traiter?")
  
-rubriqueliste = {"Ã©conomie": "0,2-3234,1-0,0",
+rubriqueliste = {"économie": "0,2-3234,1-0,0",
             "une": "0,2-3208,1-0,0",
             "europe":"0,2-3214,1-0,0",
-            "sociÃ©tÃ©":"0,2-3224,1-0,0",
+            "société":"0,2-3224,1-0,0",
             "international":"0,2-3210,1-0,0",
-            "idÃ©es":"0,2-3232,1-0,0",
-            "mÃ©dias":"0,2-3236,1-0,0",
+            "idées":"0,2-3232,1-0,0",
+            "médias":"0,2-3236,1-0,0",
             "sport": "0,2-3242,1-0,0",
-            "planÃ¨te": "0,2-3244,1-0,0",
+            "planète": "0,2-3244,1-0,0",
             "culture": "0,2-3246,1-0,0",
             "livres":"0,2-3260,1-0,0",
-            "cinÃ©ma":"0,2-3476,1-0,0",
+            "cinéma":"0,2-3476,1-0,0",
             "voyage":"0,2-3546,1-0,0",
             "technologies":"0,2-651865,1-0,0",
             "politique":"0,57-0,64-823353,0",
@@ -34,7 +34,7 @@ rubrique = rubriqueliste.get(choix)
  
  
  
-#accÃ¨s aux sous-fichiers, parcours de l'arborescence:
+#accès aux sous-fichiers, parcours de l'arborescence:
 for root, directories, filenames in os.walk("/home/y/Documents/arbre"):
     for filename in filenames:
         if ".xml" in filename and rubrique in filename:
@@ -47,7 +47,7 @@ for root, directories, filenames in os.walk("/home/y/Documents/arbre"):
 
                 for entry in d.entries:
 
-                    #Ã©criture dans les fichiers de sortie avec les balises
+                    #écriture dans les fichiers de sortie avec les balises
                     output.write("<item>"+"\n")
                     output.write("<title>"+entry.title+"</title>"+"\n")
                     output.write("<description>"+entry.description+"</description>"+"\n")
@@ -63,13 +63,13 @@ output.write("</sortie>")
 output.close()
 output1.close()
 
-#commande shell pour exÃ©cuter treetagger 
+#commande shell pour exécuter treetagger 
 subprocess.call("perl ~/Documents/tagger/token.pl -f ~/Documents/tagger/scriptpython.txt |~/Documents/tagger/cmd/tree-tagger-french > ~/Documents/tagger/output.txt", shell = True)
 
 #conversion du fichier de Treetagger en XML
 subprocess.call("perl ~/Documents/tagger/xml.pl ~/Documents/tagger/output.txt utf8", shell = True)
 
-#exÃ©cution de Talismane
+#exécution de Talismane
 subprocess.call("java -Xmx1G -Dconfig.file=talismane-fr-5.2.0.conf -jar talismane-core-5.3.0.jar --analyse --sessionId=fr --encoding=UTF8 --inFile=/home/y/Documents/tagger/scriptpython.txt --outFile=/home/y/Documents/tagger/frTest.tal" , shell = True, cwd = "/home/y/Documents/talismane")
 
 #conversion du fichier de Talismane en XML
